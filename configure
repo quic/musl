@@ -312,6 +312,7 @@ case "$target" in
 # Catch these early to simplify matching for 32-bit archs
 arm*) ARCH=arm ;;
 aarch64*) ARCH=aarch64 ;;
+hexagon*) ARCH=hexagon ;;
 i?86-nt32*) ARCH=nt32 ;;
 i?86*) ARCH=i386 ;;
 x86_64-x32*|x32*|x86_64*x32) ARCH=x32 ;;
