@@ -24,10 +24,10 @@ static inline int a_cas(volatile int *p, int t, int s)
 	__asm__ __volatile__(
 		"1:	%0 = memw_locked(%1)\n\t"
 		"	{ p0 = cmp.eq(%0, %2)\n\t"
-		"	  if (!p0.new) jump:nt 1f }\n\t"
+		"	  if (!p0.new) jump:nt 2f }\n\t"
 		"	memw_locked(%1, p0) = %3\n\t"
 		"	if (!p0) jump 1b\n\t"
-		"1:	\n\t"
+		"2:	\n\t"
 		: "=&r"(dummy)
 		: "r"(p), "r"(t), "r"(s)
 		: "p0", "memory" );
@@ -181,3 +181,4 @@ static inline void a_or_64(volatile uint64_t *p, uint64_t v)
 		: "r"(p), "r"(v)
 		: "p0", "memory" );
 }
+

@@ -1,4 +1,4 @@
-// Copied from kernel-headers-3.19
+// From kernel headers
 
 struct stat {
         dev_t   st_dev;         /* Device.  */
