@@ -24,5 +24,3 @@ TYPEDEF struct { __attribute__((__aligned__(8))) long long __ll; long double __l
 TYPEDEF struct { alignas(8) long long __ll; long double __ld; } max_align_t;
 #endif
 
-TYPEDEF long time_t;
-TYPEDEF long suseconds_t;
