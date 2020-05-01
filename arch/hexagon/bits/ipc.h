@@ -4,8 +4,7 @@ struct ipc_perm {
 	int gid;
 	int cuid;
 	int cgid;
-	unsigned short mode;
-	unsigned short __pad1;
+	mode_t mode;
 	unsigned short __ipc_perm_seq;
 };
 
