@@ -3,15 +3,21 @@
 struct shmid_ds {
 	struct ipc_perm shm_perm;
 	size_t shm_segsz;
-	long shm_atime;
-	long shm_dtime;
-	long shm_ctime;
+	unsigned long __shm_atime_lo;
+	unsigned long __shm_atime_hi;
+	unsigned long __shm_dtime_lo;
+	unsigned long __shm_dtime_hi;
+	unsigned long __shm_ctime_lo;
+	unsigned long __shm_ctime_hi;
 	pid_t shm_cpid;
 	pid_t shm_lpid;
-	unsigned short shm_nattch;
+	unsigned long shm_nattch;
 	unsigned long __pad1;
 	unsigned long __pad2;
 	unsigned long __pad3;
+	time_t shm_atime;
+	time_t shm_dtime;
+	time_t shm_ctime;
 };
 
 struct shminfo {
