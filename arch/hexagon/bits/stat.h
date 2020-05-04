@@ -1,20 +1,24 @@
+/* copied from kernel definition, but with padding replaced
+ * by the corresponding correctly-sized userspace types. */
 struct stat {
-    unsigned long long st_dev;
-    unsigned long long st_ino;
-    unsigned int st_mode;
-    unsigned int st_nlink;
-    unsigned int st_uid;
-    unsigned int st_gid;
-    unsigned long long st_rdev;
-    unsigned long __pad1;
-    long long st_size;
-    unsigned long st_blksize;
-    int __pad2;
-    long long st_blocks;
-
-    struct timespec st_atim;       /* Time of last access.  */
-    struct timespec st_mtim;       /* Time of last modification.  */
-    struct timespec st_ctim;       /* Time of last status change.  */
-
-    int __unused[2];
+	dev_t st_dev;
+	ino_t st_ino;
+	mode_t st_mode;
+	nlink_t st_nlink;
+	uid_t st_uid;
+	gid_t st_gid;
+	dev_t st_rdev;
+	long long __st_rdev_padding;
+	off_t st_size;
+	blksize_t st_blksize;
+	int __st_blksize_padding;
+	blkcnt_t st_blocks;
+	struct {
+		long tv_sec;
+		long tv_nsec;
+	} __st_atim32, __st_mtim32, __st_ctim32;
+	unsigned __unused[2];
+	struct timespec st_atim;
+	struct timespec st_mtim;
+	struct timespec st_ctim;
 };
