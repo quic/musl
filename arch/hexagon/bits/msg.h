@@ -1,12 +1,8 @@
-struct msqid_ds
-{
+struct msqid_ds {
 	struct ipc_perm msg_perm;
-	long msg_stime;
-	int __unused1;
-	long msg_rtime;
-	int __unused2;
-	long msg_ctime;
-	int __unused3;
+	time_t msg_stime;
+	time_t msg_rtime;
+	time_t msg_ctime;
 	unsigned long msg_cbytes;
 	msgqnum_t msg_qnum;
 	msglen_t msg_qbytes;
