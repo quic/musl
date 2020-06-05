@@ -1,4 +1,3 @@
-// Copied from kernel-headers-3.19 (unistd.h)
 #define __NR_io_setup 0
 #define __NR_io_destroy 1
 #define __NR_io_submit 2
