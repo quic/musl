@@ -16,6 +16,16 @@ static inline int a_ctz_64(uint64_t x)
 		: "=r"(count) : "r"(x));
 	return count;
 }
+#define a_clz_64 a_clz_64
+static inline int a_clz_64(uint64_t x)
+{
+        int count;
+        __asm__(
+                "%1 = brev(%1)\n\t"
+                "%0 = ct0(%1)\n\t"
+                : "=r"(count) : "r"(x));
+        return count;
+}
 
 #define a_cas a_cas
 static inline int a_cas(volatile int *p, int t, int s)
