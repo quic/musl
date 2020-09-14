@@ -1,8 +1,7 @@
-
 // Hexagon supports variant 2 TLS.
-static inline struct pthread *__pthread_self()
+static inline uintptr_t __get_tp()
 {
-  struct pthread *tp;
+  uintptr_t tp;
   __asm__ ( "%0 = ugp" : "=r"(tp));
   return tp;
 }
