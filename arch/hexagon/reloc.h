@@ -1,15 +1,6 @@
 #include <endian.h>
 
-#if __BYTE_ORDER == __LITTLE_ENDIAN
-#define ENDIAN_SUFFIX "el"
-#else
-#define ENDIAN_SUFFIX ""
-#endif
-
-#define FP_SUFFIX ""
-
-#define LDSO_ARCH "hexagon" ENDIAN_SUFFIX FP_SUFFIX
-
+#define LDSO_ARCH "hexagon"
 #define TPOFF_K 0
 
 #define REL_SYMBOLIC    R_HEX_32

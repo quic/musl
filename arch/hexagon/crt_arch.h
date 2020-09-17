@@ -27,7 +27,7 @@ __asm__(
 ".long 1f - 0f		/* name length */ \n"
 ".long 3f - 2f		/* data length */ \n"
 ".long  1		/* note type */ \n"
-"0:	.asciz \"GNU\"	/* vendor name seems like this should be MUSL but lldb doesn't agree.*/ \n"
+"0:	.asciz \"GNU\" \n"
 "1:	.align 4		 \n"
 "2:	.long 0	/* linux */ \n"
 "	.long 3,0,0 \n"

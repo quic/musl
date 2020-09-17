@@ -32,9 +32,8 @@ typedef struct sigcontext
 	unsigned long cause;
 	unsigned long badva;
 	unsigned long pad1;
-	unsigned long pad2;
-	unsigned long pad3;
-} __attribute__((__aligned__(8))) mcontext_t;
+	unsigned long long pad2;
+} mcontext_t;
 #else
 typedef struct {
 	unsigned long __regs[48];
@@ -53,7 +52,6 @@ typedef struct __ucontext {
 	stack_t uc_stack;
 	mcontext_t uc_mcontext;
 	sigset_t uc_sigmask;
-//	unsigned long long uc_regspace[64];
 } ucontext_t;
 
 #define SA_NOCLDSTOP  1
