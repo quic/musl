@@ -1,30 +1,18 @@
 #define a_ctz_32 a_ctz_32
 static inline int a_ctz_32(unsigned long x)
 {
-	__asm__(
-		"%0 = ct0(%0)\n\t"
-		: "+r"(x));
-	return x;
+	return __builtin_ctzl(x);
 }
 
 #define a_ctz_64 a_ctz_64
 static inline int a_ctz_64(uint64_t x)
 {
-	int count;
-	__asm__(
-		"%0 = ct0(%1)\n\t"
-		: "=r"(count) : "r"(x));
-	return count;
+	return __builtin_ctzll(x);
 }
 #define a_clz_64 a_clz_64
 static inline int a_clz_64(uint64_t x)
 {
-        int count;
-        __asm__(
-                "%1 = brev(%1)\n\t"
-                "%0 = ct0(%1)\n\t"
-                : "=r"(count) : "r"(x));
-        return count;
+	return __builtin_clzll(x);
 }
 
 #define a_cas a_cas

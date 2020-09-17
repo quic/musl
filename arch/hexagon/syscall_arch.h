@@ -62,7 +62,8 @@ static inline long __syscall5(long n, long a, long b, long c, long d, long e)
   __asm_syscall("r"(r6), "0"(r0), "r"(r1), "r"(r2), "r"(r3), "r"(r4));
 }
 
-static inline long __syscall6(long n, long a, long b, long c, long d, long e, long f)
+static inline long __syscall6(long n, long a, long b, long c, long d, long e,
+                              long f)
 {
   register long r6 __asm__("r6") = n;
   register long r0 __asm__("r0") = a;

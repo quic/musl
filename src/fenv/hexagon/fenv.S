@@ -1,22 +1,23 @@
 /*
-The Hexagon user status register includes five status fields which work as
-sticky flags for the five IEEE-defined exception conditions: inexact, overflow, underflow,
-divide by zero, and invalid. A sticky flag is set when the corresponding exception occurs,
-and remains set until explicitly cleared.
-
-  usr:23:22 - Rounding Mode
-  00: Round toward nearest
-  01: Round toward zero
-  10: Downward Round toward negative infinity
-  11: Upward Round toward positive infinity
-
-  usr:5 - Floating-point IEEE Inexact Sticky Flag.
-  usr:4 - Floating-point IEEE Underflow Sticky Flag.
-  usr:3 - Floating-point IEEE Overflow Sticky Flag.
-  usr:2 - Floating-point IEEE Divide-By-Zero Sticky Flag.
-  usr:1 - Floating-point IEEE Invalid Sticky Flag.
-  usr:0 - Sticky Saturation Overflow, when 1 saturation occurred.
-*/
+ * The Hexagon user status register includes five status fields which work
+ * as sticky flags for the five IEEE-defined exception conditions:
+ * inexact, overflow, underflow, divide by zero, and invalid.
+ * A sticky flag is set when the corresponding exception occurs,
+ * and remains set until explicitly cleared.
+ * 
+ *  usr:23:22 - Rounding Mode
+ *  00: Round toward nearest
+ *  01: Round toward zero
+ *  10: Downward Round toward negative infinity
+ *  11: Upward Round toward positive infinity
+ *
+ *  usr:5 - Floating-point IEEE Inexact Sticky Flag.
+ *  usr:4 - Floating-point IEEE Underflow Sticky Flag.
+ *  usr:3 - Floating-point IEEE Overflow Sticky Flag.
+ *  usr:2 - Floating-point IEEE Divide-By-Zero Sticky Flag.
+ *  usr:1 - Floating-point IEEE Invalid Sticky Flag.
+ *  usr:0 - Sticky Saturation Overflow, when 1 saturation occurred.
+ */
 
 #define FE_ALL_EXCEPT 0x3f
 
@@ -28,8 +29,8 @@ and remains set until explicitly cleared.
 #define RND_UP      (0x3 << 22)
 
 /*
-int feclearexcept(int mask)
-*/
+ * int feclearexcept(int mask)
+ */
 .global feclearexcept
 .type feclearexcept,@function
 feclearexcept:
@@ -45,8 +46,8 @@ feclearexcept:
   }
 
 /*
-int feraiseexcept(int mask)
-*/
+ * int feraiseexcept(int mask)
+ */
 .global feraiseexcept
 .type feraiseexcept,@function
 feraiseexcept:
@@ -63,8 +64,8 @@ feraiseexcept:
 
 
 /*
-int fetestexcept(int mask)
-*/
+ * int fetestexcept(int mask)
+ */
 .global fetestexcept
 .type fetestexcept,@function
 fetestexcept:
@@ -78,8 +79,8 @@ fetestexcept:
   }
 
 /*
-int fegetround(void)
-*/
+ *int fegetround(void)
+ */
 .global fegetround
 .type fegetround,@function
 fegetround:
@@ -89,8 +90,8 @@ fegetround:
   jumpr r31
 
 /*
-int __fesetround(int r)
-*/
+ * int __fesetround(int r)
+ */
 .global __fesetround
 .type __fesetround,@function
 __fesetround:
@@ -110,8 +111,8 @@ __fesetround:
   }
 
 /*
-int fegetenv(fenv_t *envp)
-*/
+ * int fegetenv(fenv_t *envp)
+ */
 .global fegetenv
 .type fegetenv,@function
 fegetenv:
@@ -123,8 +124,8 @@ fegetenv:
   }
 
 /*
-int fesetenv(const fenv_t *envp)
-*/
+ * int fesetenv(const fenv_t *envp)
+ */
 .global fesetenv
 .type fesetenv,@function
 fesetenv:
@@ -135,7 +136,7 @@ fesetenv:
   r1 = and(r1, r2)   // MASK the input bits with the FE bits
   r3 = usr
   r3 = and(r3, ~r2)  // Clear any currently set FE bits
-  r3 = or(r3, r1)   // Set the newbits
+  r3 = or(r3, r1)    // Set the newbits
   usr = r3
   {
     r0 = #0
