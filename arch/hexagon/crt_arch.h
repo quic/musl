@@ -20,16 +20,3 @@ START ": \n"
 "	call " START "_c \n"
 ".size " START ", .-" START "\n"
 );
-
-__asm__(
-".section \".note.ABI-tag\", \"a\" \n"
-".align 4 \n"
-".long 1f - 0f		/* name length */ \n"
-".long 3f - 2f		/* data length */ \n"
-".long  1		/* note type */ \n"
-"0:	.asciz \"GNU\" \n"
-"1:	.align 4		 \n"
-"2:	.long 0	/* linux */ \n"
-"	.long 3,0,0 \n"
-"3:	.align 4 \n"
-);
