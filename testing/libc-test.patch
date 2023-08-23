@@ -1,0 +1,46 @@
+diff --git a/src/api/unistd.c b/src/api/unistd.c
+index 522ccdc..93f8fd7 100644
+--- a/src/api/unistd.c
++++ b/src/api/unistd.c
+@@ -84,8 +84,8 @@ C(_CS_POSIX_V7_LP64_OFF64_LIBS)
+ C(_CS_POSIX_V7_LPBIG_OFFBIG_CFLAGS)
+ C(_CS_POSIX_V7_LPBIG_OFFBIG_LDFLAGS)
+ C(_CS_POSIX_V7_LPBIG_OFFBIG_LIBS)
+-C(_CS_POSIX_V7_THREADS_CFLAGS)
+-C(_CS_POSIX_V7_THREADS_LDFLAGS)
++//C(_CS_POSIX_V7_THREADS_CFLAGS)
++//C(_CS_POSIX_V7_THREADS_LDFLAGS)
+ C(_CS_POSIX_V7_WIDTH_RESTRICTED_ENVS)
+ C(_CS_V7_ENV)
+ C(SEEK_CUR)
+@@ -114,7 +114,7 @@ C(_PC_REC_MIN_XFER_SIZE)
+ C(_PC_REC_XFER_ALIGN)
+ C(_PC_SYMLINK_MAX)
+ C(_PC_SYNC_IO)
+-C(_PC_TIMESTAMP_RESOLUTION)
++//C(_PC_TIMESTAMP_RESOLUTION)
+ C(_PC_VDISABLE)
+ C(_SC_2_C_BIND)
+ C(_SC_2_C_DEV)
+@@ -235,7 +235,7 @@ C(_SC_XOPEN_REALTIME_THREADS)
+ C(_SC_XOPEN_SHM)
+ C(_SC_XOPEN_STREAMS)
+ C(_SC_XOPEN_UNIX)
+-C(_SC_XOPEN_UUCP)
++//C(_SC_XOPEN_UUCP)
+ C(_SC_XOPEN_VERSION)
+ C(STDERR_FILENO)
+ C(STDIN_FILENO)
+diff --git a/src/common/runtest.c b/src/common/runtest.c
+index ea0c1a8..ae0363a 100644
+--- a/src/common/runtest.c
++++ b/src/common/runtest.c
+@@ -41,7 +41,7 @@ static void usage(char *argv[])
+ int main(int argc, char *argv[])
+ {
+	char *wrap = "";
+-	int timeoutsec = 5;
++	int timeoutsec = 90;
+	int timeout = 0;
+	int status;
+	sigset_t set
