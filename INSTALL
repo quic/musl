@@ -54,6 +54,8 @@ and ABI combinations:
 * AArch64
     * Little-endian default; big-endian variants also supported
 
+* Hexagon
+
 * MIPS
     * ABI is o32, fp32/fpxx (except on r6 which is fp64)
     * Big-endian default; little-endian variants also supported
