@@ -1,3 +1,8 @@
+/*
+ * Copyright(c) 2024 Qualcomm Innovation Center, Inc. All Rights Reserved.
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 #define a_ctz_32 a_ctz_32
 static inline int a_ctz_32(unsigned long x)
 {
