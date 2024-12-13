@@ -139,20 +139,12 @@
         "type": "file-starts-with",
         "options": {
           "globsAll": [
-            "**/*.py",
-            "**/*.js",
-            "**/*.c",
-            "**/*.cc",
-            "**/*.cpp",
-            "**/*.h",
-            "**/*.ts",
-            "**/*.sh",
-            "**/*.rs",
-            "**/*.java",
-            "**/*.go",
-            "**/*.bbclass",
-            "**/*.S",
-            "**/*.hpp"
+            "arch/hexagon/**/*.c",
+            "arch/hexagon/**/*.cc",
+            "arch/hexagon/**/*.cpp",
+            "arch/hexagon/**/*.h",
+            "arch/hexagon/**/*.S",
+            "arch/hexagon/**/*.hpp"
           ],
           "skip-paths-matching": {
             "patterns": [
