@@ -1,3 +1,7 @@
+/*
+ * Copyright(c) 2024 Qualcomm Innovation Center, Inc. All Rights Reserved.
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
 
 #define __SYSCALL_LL_E(x) \
 ((union { long long ll; long l[2]; }){ .ll = x }).l[0], \

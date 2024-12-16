@@ -1,3 +1,8 @@
+/*
+ * Copyright(c) 2024 Qualcomm Innovation Center, Inc. All Rights Reserved.
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 /* copied from kernel definition, but with padding replaced
  * by the corresponding correctly-sized userspace types. */
 struct stat {

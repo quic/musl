@@ -1,3 +1,8 @@
+/*
+ * Copyright(c) 2024 qualcomm innovation center, inc. all rights reserved.
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 #include <endian.h>
 
 #define LDSO_ARCH "hexagon"

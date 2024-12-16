@@ -160,6 +160,11 @@ The powerpc port was also originally written by Richard Pennington,
 and later supplemented and integrated by John Spencer. It is licensed
 under the standard MIT terms.
 
+The Hexagon port (arch/hexagon) is Copyright(c) Qualcomm Innovation Center,
+Inc. All Rights Reserved. It is licensed under BSD-3-clause license
+(https://opensource.org/license/bsd-3-clause).
+
+
 All other files which have no copyright comments are original works
 produced specifically for use as part of this library, written either
 by Rich Felker, the main author of the library, or by one or more

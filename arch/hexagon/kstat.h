@@ -1,3 +1,8 @@
+/*
+ * Copyright(c) 2024 Qualcomm Innovation Center, Inc. All Rights Reserved.
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 struct kstat {
 	dev_t st_dev;
 	ino_t st_ino;
