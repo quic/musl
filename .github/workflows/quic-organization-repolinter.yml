@@ -2,9 +2,9 @@ name: QuIC Organization Repolinter
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "hexagon" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "hexagon" ]
   workflow_dispatch:
 
 jobs:
@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Verify repolinter config file is present
         id: check_files
-        uses: andstor/file-existence-action@v1
+        uses: andstor/file-existence-action@v3
         with:
           files: "repolint.json"
       - name: Run Repolinter with local repolint.json
