@@ -36,8 +36,9 @@ typedef struct sigcontext
 	unsigned long pc;
 	unsigned long cause;
 	unsigned long badva;
+	unsigned long cs0;
+	unsigned long cs1;
 	unsigned long pad1;
-	unsigned long long pad2;
 } mcontext_t;
 #else
 typedef struct {
