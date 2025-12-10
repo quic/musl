@@ -39,7 +39,7 @@ typedef struct sigcontext
 	unsigned long cs0;
 	unsigned long cs1;
 	unsigned long pad1;
-} mcontext_t;
+} __attribute__((__aligned__(8))) mcontext_t;
 #else
 typedef struct {
 	unsigned long __regs[48];
