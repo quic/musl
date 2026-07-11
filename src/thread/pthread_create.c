@@ -189,11 +189,33 @@ struct start_args {
 	void *start_arg;
 	volatile int control;
 	unsigned long sig_mask[_NSIG/8/sizeof(long)];
+#ifdef __HEXAGON_SCS_THREADS__
+	/* Base of this thread's shadow-call-stack region (grows up). Set by
+	   pthread_create; loaded into r19 by start()/start_c11() before any
+	   instrumented code runs. See hexagon-scs-crt1.c for the main thread. */
+	void *scs_base;
+#endif
 };
 
+#ifdef __HEXAGON_SCS_THREADS__
+__attribute__((always_inline))
+static inline void __scs_set_r19(void *base)
+{
+	register void *r19 __asm__("r19") = base;
+	__asm__ volatile("" : "+r"(r19));
+}
+#endif
+
+__attribute__((no_sanitize("shadow-call-stack")))
 static int start(void *p)
 {
 	struct start_args *args = p;
+#ifdef __HEXAGON_SCS_THREADS__
+	/* Initialise r19 to this thread's shadow-call-stack before any
+	   instrumented code runs. This function is no_sanitize so its own
+	   prologue does not touch r19 before we set it. */
+	__scs_set_r19(args->scs_base);
+#endif
 	int state = args->control;
 	if (state) {
 		if (a_cas(&args->control, 1, 2)==1)
@@ -208,9 +230,13 @@ static int start(void *p)
 	return 0;
 }
 
+__attribute__((no_sanitize("shadow-call-stack")))
 static int start_c11(void *p)
 {
 	struct start_args *args = p;
+#ifdef __HEXAGON_SCS_THREADS__
+	__scs_set_r19(args->scs_base);
+#endif
 	int (*start)(void*) = (int(*)(void*)) args->start_func;
 	__pthread_exit((void *)(uintptr_t)start(args->start_arg));
 	return 0;
@@ -240,6 +266,9 @@ int __pthread_create(pthread_t *restrict res, const pthread_attr_t *restrict att
 	size_t size, guard;
 	struct pthread *self, *new;
 	unsigned char *map = 0, *stack = 0, *tsd = 0, *stack_limit;
+#ifdef __HEXAGON_SCS_THREADS__
+	unsigned char *scs_base = 0;
+#endif
 	unsigned flags = CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND
 		| CLONE_THREAD | CLONE_SYSVSEM | CLONE_SETTLS
 		| CLONE_PARENT_SETTID | CLONE_CHILD_CLEARTID | CLONE_DETACHED;
@@ -310,6 +339,20 @@ int __pthread_create(pthread_t *restrict res, const pthread_attr_t *restrict att
 		}
 	}
 
+#ifdef __HEXAGON_SCS_THREADS__
+	/* Carve a shadow-call-stack region from the low end of the thread's
+	   stack mapping (just above the guard page, which then catches
+	   underflow). r19 grows up from scs_base. Bounded to a quarter of the
+	   stack so it cannot starve the regular stack, clamped to [4 KiB,256 KiB].
+	   Lives inside the thread map, so it is freed with the thread -- no leak. */
+	{
+		size_t scs_size = (size_t)(stack - stack_limit) / 4;
+		if (scs_size > (1u << 18)) scs_size = 1u << 18;
+		if (scs_size < (1u << 12)) scs_size = 1u << 12;
+		scs_base = stack_limit;
+		stack_limit += scs_size;
+	}
+#endif
 	new = __copy_tls(tsd - libc.tls_size);
 	new->map_base = map;
 	new->map_size = size;
@@ -337,6 +380,9 @@ int __pthread_create(pthread_t *restrict res, const pthread_attr_t *restrict att
 	args->start_func = entry;
 	args->start_arg = arg;
 	args->control = attr._a_sched ? 1 : 0;
+#ifdef __HEXAGON_SCS_THREADS__
+	args->scs_base = scs_base;
+#endif
 
 	/* Application signals (but not the synccall signal) must be
 	 * blocked before the thread list lock can be taken, to ensure
