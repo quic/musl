@@ -191,18 +191,27 @@ struct start_args {
 	unsigned long sig_mask[_NSIG/8/sizeof(long)];
 #ifdef __HEXAGON_SCS_THREADS__
 	/* Base of this thread's shadow-call-stack region (grows up). Set by
-	   pthread_create; loaded into r19 by start()/start_c11() before any
-	   instrumented code runs. See hexagon-scs-crt1.c for the main thread. */
+	   pthread_create; loaded into the SCS register by start()/start_c11()
+	   before any instrumented code runs. See hexagon-scs-crt1.c for the
+	   main thread. */
 	void *scs_base;
 #endif
 };
 
 #ifdef __HEXAGON_SCS_THREADS__
+/* Must match the register the instrumented code was compiled for: the
+   compiler's default (see HexagonSubtarget::getSCSPReg()) or whatever
+   -mscs-reg=rN selected. */
+#ifndef __HEXAGON_SCS_REG
+#define __HEXAGON_SCS_REG r18
+#endif
+#define __SCS_STR_(x) #x
+#define __SCS_STR(x) __SCS_STR_(x)
 __attribute__((always_inline))
-static inline void __scs_set_r19(void *base)
+static inline void __scs_set_reg(void *base)
 {
-	register void *r19 __asm__("r19") = base;
-	__asm__ volatile("" : "+r"(r19));
+	register void *scsp __asm__(__SCS_STR(__HEXAGON_SCS_REG)) = base;
+	__asm__ volatile("" : "+r"(scsp));
 }
 #endif
 
@@ -211,10 +220,10 @@ static int start(void *p)
 {
 	struct start_args *args = p;
 #ifdef __HEXAGON_SCS_THREADS__
-	/* Initialise r19 to this thread's shadow-call-stack before any
-	   instrumented code runs. This function is no_sanitize so its own
-	   prologue does not touch r19 before we set it. */
-	__scs_set_r19(args->scs_base);
+	/* Initialise the SCS register to this thread's shadow-call-stack before
+	   any instrumented code runs. This function is no_sanitize so its own
+	   prologue does not touch the register before we set it. */
+	__scs_set_reg(args->scs_base);
 #endif
 	int state = args->control;
 	if (state) {
@@ -235,7 +244,7 @@ static int start_c11(void *p)
 {
 	struct start_args *args = p;
 #ifdef __HEXAGON_SCS_THREADS__
-	__scs_set_r19(args->scs_base);
+	__scs_set_reg(args->scs_base);
 #endif
 	int (*start)(void*) = (int(*)(void*)) args->start_func;
 	__pthread_exit((void *)(uintptr_t)start(args->start_arg));
@@ -342,7 +351,7 @@ int __pthread_create(pthread_t *restrict res, const pthread_attr_t *restrict att
 #ifdef __HEXAGON_SCS_THREADS__
 	/* Carve a shadow-call-stack region from the low end of the thread's
 	   stack mapping (just above the guard page, which then catches
-	   underflow). r19 grows up from scs_base. Bounded to a quarter of the
+	   underflow). The SCS pointer grows up from scs_base. Bounded to a quarter of the
 	   stack so it cannot starve the regular stack, clamped to [4 KiB,256 KiB].
 	   Lives inside the thread map, so it is freed with the thread -- no leak. */
 	{
