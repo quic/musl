@@ -16,7 +16,10 @@
 #define HWCAP_HEXAGON_ISA_V69	12	/* Hexagon V69 */
 #define HWCAP_HEXAGON_ISA_V71	13	/* Hexagon V71 */
 #define HWCAP_HEXAGON_ISA_V73	14	/* Hexagon V73 */
-#define HWCAP_HEXAGON_ISA_V79	15	/* Hexagon V79 */
+#define HWCAP_HEXAGON_ISA_V75	15	/* Hexagon V75 */
+#define HWCAP_HEXAGON_ISA_V77	16	/* Hexagon V77 */
+#define HWCAP_HEXAGON_ISA_V79	17	/* Hexagon V79 */
+#define HWCAP_HEXAGON_ISA_V81	18	/* Hexagon V81 */
 
 /* Essential feature flags */
 #define HWCAP_HEXAGON_HVX		(1 << 7)	/* HVX (Hexagon Vector eXtensions) */
@@ -24,6 +27,7 @@
 #define HWCAP_HEXAGON_HVX_LENGTH_128B	(1 << 9)	/* HVX 128-byte vector length */
 #define HWCAP_HEXAGON_HVX_IEEE_FP	(1 << 10)	/* HVX IEEE floating point */
 #define HWCAP_HEXAGON_AUDIO		(1 << 11)	/* Audio ISA extensions */
+#define HWCAP_HEXAGON_HMX		(1 << 12)	/* Hexagon Matrix eXtensions */
 
 /* Utility macros for userspace applications */
 #define HWCAP_HEXAGON_GET_ISA(hwcap)		((hwcap) & HWCAP_HEXAGON_ISA_MASK)
